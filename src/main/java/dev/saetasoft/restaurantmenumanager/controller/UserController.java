@@ -26,8 +26,8 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<PaginatedResponse<UserResponseDto>> getUsers(
-            @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int perPage,
+            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "10") Integer perPage,
             @RequestParam(defaultValue = "email") String sortBy,
             @RequestParam(defaultValue = "asc") String sortDir
     ) {

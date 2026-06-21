@@ -10,7 +10,6 @@ import dev.saetasoft.restaurantmenumanager.model.entity.User;
 import dev.saetasoft.restaurantmenumanager.model.filter.RestaurantFilter;
 import dev.saetasoft.restaurantmenumanager.model.specification.RestaurantSpecification;
 import dev.saetasoft.restaurantmenumanager.repository.RestaurantRepository;
-import dev.saetasoft.restaurantmenumanager.repository.UserRepository;
 import dev.saetasoft.restaurantmenumanager.service.CuisineService;
 import dev.saetasoft.restaurantmenumanager.service.RestaurantService;
 import dev.saetasoft.restaurantmenumanager.service.UserService;

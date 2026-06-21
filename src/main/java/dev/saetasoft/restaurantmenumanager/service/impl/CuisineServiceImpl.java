@@ -41,7 +41,6 @@ public class CuisineServiceImpl implements CuisineService {
         return PaginatedResponse.<CuisineResponseDto>builder()
                 .perPage(paginationParams.getSize())
                 .results(cuisines.size())
-                .totalPages(cuisinePage.getSize())
                 .totalResults(cuisinePage.getTotalElements())
                 .page(paginationParams.getPage() + 1)
                 .totalPages(cuisinePage.getTotalPages())

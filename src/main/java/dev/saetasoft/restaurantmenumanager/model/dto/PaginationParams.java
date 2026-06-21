@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PaginationParams {
-    private int page;
-    private int size;
+    private Integer page;
+    private Integer size;
     private String sortBy;
     private String sortDir;
 }
