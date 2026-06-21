@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: restaurant-menu-manager
+  datasource:
+    url: jdbc:mysql://localhost:3306/restaurant_dev
+    username: root
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update  # En producción usar 'validate' o 'none'
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+springdoc:
+  api-docs:
+    path: /v1/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  open-api:
+    info:
+      title: Restaurant Management API
+      description: Restaurant Management API Documentation
+      version: 1.0.0
+      contact:
+        name: Tu Nombre o Equipo
+        email: dev@tuempresa.com
+server:
+  port: 8080
