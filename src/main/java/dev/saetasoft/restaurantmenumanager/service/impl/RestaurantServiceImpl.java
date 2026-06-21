@@ -1,9 +1,9 @@
 package dev.saetasoft.restaurantmenumanager.service.impl;
 
-import dev.saetasoft.restaurantmenumanager.model.dto.PaginatedResponse;
+import dev.saetasoft.restaurantmenumanager.model.dto.response.PaginatedResponse;
 import dev.saetasoft.restaurantmenumanager.model.dto.PaginationParams;
-import dev.saetasoft.restaurantmenumanager.model.dto.RestaurantRequestDto;
-import dev.saetasoft.restaurantmenumanager.model.dto.RestaurantResponseDto;
+import dev.saetasoft.restaurantmenumanager.model.dto.request.RestaurantRequestDto;
+import dev.saetasoft.restaurantmenumanager.model.dto.response.RestaurantResponseDto;
 import dev.saetasoft.restaurantmenumanager.model.entity.Cuisine;
 import dev.saetasoft.restaurantmenumanager.model.entity.Restaurant;
 import dev.saetasoft.restaurantmenumanager.model.entity.User;

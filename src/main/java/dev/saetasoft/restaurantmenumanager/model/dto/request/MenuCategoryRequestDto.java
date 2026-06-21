@@ -1,4 +1,4 @@
-package dev.saetasoft.restaurantmenumanager.model.dto;
+package dev.saetasoft.restaurantmenumanager.model.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

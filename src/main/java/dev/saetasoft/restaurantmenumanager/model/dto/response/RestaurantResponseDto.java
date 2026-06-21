@@ -1,5 +1,6 @@
-package dev.saetasoft.restaurantmenumanager.model.dto;
+package dev.saetasoft.restaurantmenumanager.model.dto.response;
 
+import dev.saetasoft.restaurantmenumanager.model.dto.request.CuisineResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

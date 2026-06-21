@@ -1,8 +1,8 @@
 package dev.saetasoft.restaurantmenumanager.controller;
 
-import dev.saetasoft.restaurantmenumanager.model.dto.MenuCategoryRequestDto;
-import dev.saetasoft.restaurantmenumanager.model.dto.MenuCategoryResponseDto;
-import dev.saetasoft.restaurantmenumanager.model.dto.PaginatedResponse;
+import dev.saetasoft.restaurantmenumanager.model.dto.request.MenuCategoryRequestDto;
+import dev.saetasoft.restaurantmenumanager.model.dto.response.MenuCategoryResponseDto;
+import dev.saetasoft.restaurantmenumanager.model.dto.response.PaginatedResponse;
 import dev.saetasoft.restaurantmenumanager.model.dto.PaginationParams;
 import dev.saetasoft.restaurantmenumanager.service.MenuCategoryService;
 import io.swagger.v3.oas.annotations.tags.Tag;

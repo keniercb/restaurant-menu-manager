@@ -1,15 +1,16 @@
-package dev.saetasoft.restaurantmenumanager.model.dto;
+package dev.saetasoft.restaurantmenumanager.model.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@AllArgsConstructor
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-public class UserRegistrationDto {
+@Builder
+public class UserResponseDto {
+    private Long id;
     private String email;
-    private String password;
     private String fullName;
 }
