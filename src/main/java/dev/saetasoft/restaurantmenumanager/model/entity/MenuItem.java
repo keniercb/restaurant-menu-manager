@@ -28,7 +28,8 @@ public class MenuItem {
     private BigDecimal price;
     @Column(name = "is_available")
     private Boolean isAvailable;
-
+    @Column(name = "display_order")
+    private Integer displayOrder;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;

@@ -18,4 +18,5 @@ public class MenuItemRequestDto {
     private Boolean isAvailable;
     private Long restaurantId;
     private Long categoryId;
+    private Integer displayOrder;
 }
