@@ -84,6 +84,11 @@ public class RestaurantServiceImpl implements RestaurantService {
                 .build();
     }
 
+    @Override
+    public Restaurant getRestaurantById(Long restaurantId) {
+        return restaurantRepository.getRestaurantsById(restaurantId).orElseThrow(() -> new RuntimeException("Restaurant not found"));
+    }
+
     private Restaurant mapFromDto(RestaurantRequestDto restaurantRequestDto) {
         return Restaurant.builder()
                 .name(restaurantRequestDto.getName())

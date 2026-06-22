@@ -4,6 +4,7 @@ import dev.saetasoft.restaurantmenumanager.model.dto.request.MenuCategoryRequest
 import dev.saetasoft.restaurantmenumanager.model.dto.response.MenuCategoryResponseDto;
 import dev.saetasoft.restaurantmenumanager.model.dto.response.PaginatedResponse;
 import dev.saetasoft.restaurantmenumanager.model.dto.PaginationParams;
+import dev.saetasoft.restaurantmenumanager.model.entity.MenuCategory;
 
 public interface MenuCategoryService {
     PaginatedResponse<MenuCategoryResponseDto> getAllCategories(PaginationParams paginationParams);
@@ -13,4 +14,6 @@ public interface MenuCategoryService {
     void deleteCategory(Long id);
 
     MenuCategoryResponseDto updateCategory(Long menuCategoryId, MenuCategoryRequestDto menuCategoryRequest);
+
+    MenuCategory getMenuCategoryById(Long id);
 }

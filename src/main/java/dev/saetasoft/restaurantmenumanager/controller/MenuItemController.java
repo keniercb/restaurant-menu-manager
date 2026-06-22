@@ -1,0 +1,43 @@
+package dev.saetasoft.restaurantmenumanager.controller;
+
+import dev.saetasoft.restaurantmenumanager.model.dto.PaginationParams;
+import dev.saetasoft.restaurantmenumanager.model.dto.request.MenuItemRequestDto;
+import dev.saetasoft.restaurantmenumanager.model.dto.response.MenuItemResponseDto;
+import dev.saetasoft.restaurantmenumanager.model.dto.response.PaginatedResponse;
+import dev.saetasoft.restaurantmenumanager.service.MenuItemService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/api/v1/menu-items")
+public class MenuItemController {
+    private final MenuItemService menuItemService;
+
+    @GetMapping
+    public ResponseEntity<PaginatedResponse<MenuItemResponseDto>> getAllMenuItems(
+            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "10") Integer perPage,
+            @RequestParam(defaultValue = "name") String orderBy,
+            @RequestParam(defaultValue = "asc") String orderDir
+    ) {
+        return ResponseEntity.ok(menuItemService.getAllMenuItems(PaginationParams.builder()
+                .page(Integer.max(0, page - 1))
+                .size(Integer.max(1, perPage))
+                .sortBy(orderBy)
+                .sortDir(orderDir)
+                .build()));
+    }
+
+    @PostMapping
+    public ResponseEntity<MenuItemResponseDto> createMenuItem(
+            @Valid @RequestBody MenuItemRequestDto menuItemRequest
+    ) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+                menuItemService.createMenuItem(menuItemRequest)
+        );
+    }
+}

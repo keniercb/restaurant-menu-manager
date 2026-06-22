@@ -75,7 +75,7 @@ public class MenuCategoryServiceImpl implements MenuCategoryService {
         menuCategoryRepository.delete(getMenuCategoryById(id));
     }
 
-    private MenuCategory getMenuCategoryById(Long id) {
+    public MenuCategory getMenuCategoryById(Long id) {
         return menuCategoryRepository.findById(id).orElseThrow(() -> new RuntimeException("Menu category not found."));
     }
 
