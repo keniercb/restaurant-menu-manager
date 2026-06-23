@@ -10,12 +10,19 @@ import org.springframework.data.domain.Sort;
 import java.util.List;
 
 public class PaginationUtils {
+    private static final int DEFAULT_PAGE = 0;
+    private static final int DEFAULT_SIZE = 10;
+    private static final String DEFAULT_SORT_BY = "id";
+    private static final String DEFAULT_SORT_DIR = "asc";
+
     public static Pageable of(PaginationParams paginationParams) {
-        int page = Math.max(0, paginationParams.getPage());
-        int size = Math.max(1, paginationParams.getSize());
-        Sort sort = paginationParams.getSortDir().equalsIgnoreCase(Sort.Direction.ASC.name())
-                ? Sort.by(paginationParams.getSortBy()).ascending()
-                : Sort.by(paginationParams.getSortBy()).descending();
+        int page = Math.max(DEFAULT_PAGE, paginationParams.getPage());
+        int size = Math.max(1, paginationParams.getSize() != null ? paginationParams.getSize() : DEFAULT_SIZE);
+        String sortDir = paginationParams.getSortDir() != null ? paginationParams.getSortDir() : DEFAULT_SORT_DIR;
+        String sortBy = paginationParams.getSortBy() != null ? paginationParams.getSortDir() : DEFAULT_SORT_BY;
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())
+                ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
         return PageRequest.of(page, size, sort);
     }
 
