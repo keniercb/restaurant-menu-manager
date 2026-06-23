@@ -29,7 +29,7 @@ public class CuisineServiceImpl implements CuisineService {
     @Override
     public PaginatedResponse<CuisineResponseDto> getAllCuisines(PaginationParams paginationParams) {
         Page<Cuisine> cuisinePage = cuisineRepository.findAll(PaginationUtils.of(paginationParams));
-        return PaginationUtils.response(cuisinePage, cuisinePage.map(this::mapToDto).stream().toList());
+        return PaginationUtils.response(cuisinePage.map(this::mapToDto));
     }
 
     @Override

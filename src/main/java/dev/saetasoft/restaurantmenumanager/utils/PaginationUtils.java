@@ -26,10 +26,21 @@ public class PaginationUtils {
         return PageRequest.of(page, size, sort);
     }
 
+    public static <T> PaginatedResponse<T> response(Page<T> page) {
+        return PaginatedResponse.<T>builder()
+                .page(page.getNumber() + 1)
+                .perPage(page.getSize())
+                .data(page.getContent())
+                .results(page.getNumberOfElements())
+                .totalResults(page.getTotalElements())
+                .totalPages(page.getTotalPages())
+                .build();
+    }
+
     public static <T, I> PaginatedResponse<T> response(Page<I> page, List<T> list) {
         return PaginatedResponse.<T>builder()
                 .perPage(page.getSize())
-                .page(page.getNumber())
+                .page(page.getNumber() + 1)
                 .data(list)
                 .results(page.getContent().size())
                 .totalResults(page.getTotalElements())

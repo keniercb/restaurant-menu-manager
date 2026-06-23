@@ -23,7 +23,7 @@ public class MenuCategoryServiceImpl implements MenuCategoryService {
     @Override
     public PaginatedResponse<MenuCategoryResponseDto> getAllCategories(PaginationParams paginationParams) {
         Page<MenuCategory> categories = menuCategoryRepository.findAll(PaginationUtils.of(paginationParams));
-        return PaginationUtils.response(categories, categories.map(this::mapToDto).stream().toList());
+        return PaginationUtils.response(categories.map(this::mapToDto));
     }
 
     @Override
@@ -44,7 +44,7 @@ public class MenuCategoryServiceImpl implements MenuCategoryService {
                 .build();
     }
 
-    private MenuCategoryResponseDto mapToDto(MenuCategory menuCategory) {
+    public MenuCategoryResponseDto mapToDto(MenuCategory menuCategory) {
         return MenuCategoryResponseDto.builder()
                 .name(menuCategory.getName())
                 .description(menuCategory.getDescription())

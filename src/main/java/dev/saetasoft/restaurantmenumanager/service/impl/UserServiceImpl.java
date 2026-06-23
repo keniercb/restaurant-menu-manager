@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public PaginatedResponse<UserResponseDto> getUsers(PaginationParams paginationParams) {
         Page<User> userPage = userRepository.findAll(PaginationUtils.of(paginationParams));
-        return PaginationUtils.response(userPage, userPage.map(this::mapToDto).toList());
+        return PaginationUtils.response(userPage.map(this::mapToDto));
     }
 
     @Override

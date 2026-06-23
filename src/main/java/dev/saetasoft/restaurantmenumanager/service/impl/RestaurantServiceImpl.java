@@ -50,27 +50,15 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     public PaginatedResponse<RestaurantResponseDto> getAllRestaurants(PaginationParams paginationParams) {
-        Sort sort = paginationParams.getSortDir().equalsIgnoreCase(Sort.Direction.ASC.name())
-                ? Sort.by(paginationParams.getSortBy()).ascending()
-                : Sort.by(paginationParams.getSortBy()).descending();
-        Pageable pageable = PageRequest.of(paginationParams.getPage(), paginationParams.getSize(), sort);
-        Page<Restaurant> restaurantPage = restaurantRepository.findAll(pageable);
-        List<RestaurantResponseDto> restaurants = restaurantPage.map(this::mapToDto).stream().toList();
-        return PaginatedResponse.<RestaurantResponseDto>builder()
-                .results(restaurants.size())
-                .perPage(paginationParams.getSize())
-                .totalResults(restaurantPage.getTotalElements())
-                .totalPages(restaurantPage.getTotalPages())
-                .page(paginationParams.getPage() + 1)
-                .data(restaurants)
-                .build();
+        Page<Restaurant> restaurantPage = restaurantRepository.findAll(PaginationUtils.of(paginationParams));
+        return PaginationUtils.response(restaurantPage.map(this::mapToDto));
     }
 
     @Override
     public PaginatedResponse<RestaurantResponseDto> getAllRestaurants(PaginationParams paginationParams, RestaurantFilter filter) {
         Specification<Restaurant> specification = RestaurantSpecification.withFilters(filter);
         Page<Restaurant> restaurantPage = restaurantRepository.findAll(specification, PaginationUtils.of(paginationParams));
-        return PaginationUtils.response(restaurantPage, restaurantPage.map(this::mapToDto).stream().toList());
+        return PaginationUtils.response(restaurantPage.map(this::mapToDto));
     }
 
     @Override

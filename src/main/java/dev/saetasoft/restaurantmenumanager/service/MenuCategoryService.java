@@ -16,4 +16,6 @@ public interface MenuCategoryService {
     MenuCategoryResponseDto updateCategory(Long menuCategoryId, MenuCategoryRequestDto menuCategoryRequest);
 
     MenuCategory getMenuCategoryById(Long id);
+
+    MenuCategoryResponseDto mapToDto(MenuCategory menuCategory);
 }

@@ -57,7 +57,7 @@ public class MenuItemServiceImpl implements MenuItemService {
     @Override
     public PaginatedResponse<MenuItemResponseDto> getAllMenuItems(PaginationParams paginationParams) {
         Page<MenuItem> menuItemPage = menuItemRepository.findAll(PaginationUtils.of(paginationParams));
-        return PaginationUtils.response(menuItemPage, menuItemPage.map(this::mapToDto).stream().toList());
+        return PaginationUtils.response(menuItemPage.map(this::mapToDto));
     }
 
     private MenuItemResponseDto mapToDto(MenuItem menuItem) {
@@ -67,6 +67,7 @@ public class MenuItemServiceImpl implements MenuItemService {
                 .description(menuItem.getDescription())
                 .price(menuItem.getPrice())
                 .restaurant(restaurantService.mapToDto(menuItem.getRestaurant()))
+                .category(menuCategoryService.mapToDto(menuItem.getMenuCategory()))
                 .created(menuItem.getCreatedAt())
                 .updated(menuItem.getUpdatedAt())
                 .build();
