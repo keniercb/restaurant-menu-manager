@@ -19,7 +19,7 @@ public class PaginationUtils {
         int page = Math.max(DEFAULT_PAGE, paginationParams.getPage());
         int size = Math.max(1, paginationParams.getSize() != null ? paginationParams.getSize() : DEFAULT_SIZE);
         String sortDir = paginationParams.getSortDir() != null ? paginationParams.getSortDir() : DEFAULT_SORT_DIR;
-        String sortBy = paginationParams.getSortBy() != null ? paginationParams.getSortDir() : DEFAULT_SORT_BY;
+        String sortBy = paginationParams.getSortBy() != null ? paginationParams.getSortBy() : DEFAULT_SORT_BY;
         Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())
                 ? Sort.by(sortBy).ascending()
                 : Sort.by(sortBy).descending();
