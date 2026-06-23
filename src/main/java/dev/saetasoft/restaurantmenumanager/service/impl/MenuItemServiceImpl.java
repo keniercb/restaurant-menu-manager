@@ -9,14 +9,10 @@ import dev.saetasoft.restaurantmenumanager.repository.MenuItemRepository;
 import dev.saetasoft.restaurantmenumanager.service.MenuCategoryService;
 import dev.saetasoft.restaurantmenumanager.service.MenuItemService;
 import dev.saetasoft.restaurantmenumanager.service.RestaurantService;
+import dev.saetasoft.restaurantmenumanager.utils.PaginationUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -60,20 +56,8 @@ public class MenuItemServiceImpl implements MenuItemService {
 
     @Override
     public PaginatedResponse<MenuItemResponseDto> getAllMenuItems(PaginationParams paginationParams) {
-        Sort sort = paginationParams.getSortDir().equalsIgnoreCase(Sort.Direction.ASC.name())
-                ? Sort.by(paginationParams.getSortBy()).ascending()
-                : Sort.by(paginationParams.getSortBy()).descending();
-        Pageable pageable = PageRequest.of(paginationParams.getPage(), paginationParams.getSize(), sort);
-        Page<MenuItem> menuItemPage = menuItemRepository.findAll(pageable);
-        List<MenuItemResponseDto> menuItemList = menuItemPage.map(this::mapToDto).stream().toList();
-        return PaginatedResponse.<MenuItemResponseDto>builder()
-                .data(menuItemList)
-                .page(paginationParams.getPage() + 1)
-                .perPage(paginationParams.getSize())
-                .results(menuItemList.size())
-                .totalPages(menuItemPage.getTotalPages())
-                .totalResults(menuItemPage.getTotalElements())
-                .build();
+        Page<MenuItem> menuItemPage = menuItemRepository.findAll(PaginationUtils.of(paginationParams));
+        return PaginationUtils.response(menuItemPage, menuItemPage.map(this::mapToDto).stream().toList());
     }
 
     private MenuItemResponseDto mapToDto(MenuItem menuItem) {

@@ -1,10 +1,10 @@
 package dev.saetasoft.restaurantmenumanager.controller;
 
 import dev.saetasoft.restaurantmenumanager.model.dto.response.PaginatedResponse;
-import dev.saetasoft.restaurantmenumanager.model.dto.PaginationParams;
 import dev.saetasoft.restaurantmenumanager.model.dto.request.UserRegistrationDto;
 import dev.saetasoft.restaurantmenumanager.model.dto.response.UserResponseDto;
 import dev.saetasoft.restaurantmenumanager.service.UserService;
+import dev.saetasoft.restaurantmenumanager.utils.PaginationUtils;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -31,14 +31,8 @@ public class UserController {
             @RequestParam(defaultValue = "email") String sortBy,
             @RequestParam(defaultValue = "asc") String sortDir
     ) {
-        PaginationParams paginationParamsDto = PaginationParams.builder()
-                .size(Integer.max(1, perPage))
-                .page(Integer.max(0, page - 1))
-                .sortBy(sortBy)
-                .sortDir(sortDir)
-                .build();
         return ResponseEntity.ok(userService.getUsers(
-                paginationParamsDto
+                PaginationUtils.params(page, perPage, sortBy, sortDir)
         ));
     }
 

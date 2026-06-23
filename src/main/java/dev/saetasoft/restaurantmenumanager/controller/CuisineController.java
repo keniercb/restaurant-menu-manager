@@ -3,8 +3,8 @@ package dev.saetasoft.restaurantmenumanager.controller;
 import dev.saetasoft.restaurantmenumanager.model.dto.request.CuisineRequestDto;
 import dev.saetasoft.restaurantmenumanager.model.dto.request.CuisineResponseDto;
 import dev.saetasoft.restaurantmenumanager.model.dto.response.PaginatedResponse;
-import dev.saetasoft.restaurantmenumanager.model.dto.PaginationParams;
 import dev.saetasoft.restaurantmenumanager.service.CuisineService;
+import dev.saetasoft.restaurantmenumanager.utils.PaginationUtils;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -32,14 +32,9 @@ public class CuisineController {
             @RequestParam(defaultValue = "name") String sortBy,
             @RequestParam(defaultValue = "asc") String sortDir
     ) {
-        PaginationParams paginationParams = PaginationParams.builder()
-                .size(perPage)
-                .page(Integer.max(0, page - 1))
-                .size(Integer.max(1, perPage))
-                .sortBy(sortBy)
-                .sortDir(sortDir)
-                .build();
-        return ResponseEntity.ok(cuisineService.getAllCuisines(paginationParams));
+        return ResponseEntity.ok(cuisineService.getAllCuisines(
+                PaginationUtils.params(page, perPage, sortBy, sortDir)
+        ));
     }
 
     @PutMapping("/{id}")

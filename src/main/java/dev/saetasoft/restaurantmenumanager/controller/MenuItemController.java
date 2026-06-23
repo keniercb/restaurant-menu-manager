@@ -1,12 +1,11 @@
 package dev.saetasoft.restaurantmenumanager.controller;
 
-import dev.saetasoft.restaurantmenumanager.model.dto.PaginationParams;
 import dev.saetasoft.restaurantmenumanager.model.dto.request.MenuItemRequestDto;
 import dev.saetasoft.restaurantmenumanager.model.dto.response.MenuItemResponseDto;
 import dev.saetasoft.restaurantmenumanager.model.dto.response.PaginatedResponse;
 import dev.saetasoft.restaurantmenumanager.service.MenuItemService;
+import dev.saetasoft.restaurantmenumanager.utils.PaginationUtils;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.persistence.Table;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,12 +26,9 @@ public class MenuItemController {
             @RequestParam(defaultValue = "name") String orderBy,
             @RequestParam(defaultValue = "asc") String orderDir
     ) {
-        return ResponseEntity.ok(menuItemService.getAllMenuItems(PaginationParams.builder()
-                .page(Integer.max(0, page - 1))
-                .size(Integer.max(1, perPage))
-                .sortBy(orderBy)
-                .sortDir(orderDir)
-                .build()));
+        return ResponseEntity.ok(menuItemService.getAllMenuItems(
+                PaginationUtils.params(page, perPage, orderBy, orderDir)
+        ));
     }
 
     @PostMapping

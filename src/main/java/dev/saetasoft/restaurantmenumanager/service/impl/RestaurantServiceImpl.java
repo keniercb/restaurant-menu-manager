@@ -13,6 +13,7 @@ import dev.saetasoft.restaurantmenumanager.repository.RestaurantRepository;
 import dev.saetasoft.restaurantmenumanager.service.CuisineService;
 import dev.saetasoft.restaurantmenumanager.service.RestaurantService;
 import dev.saetasoft.restaurantmenumanager.service.UserService;
+import dev.saetasoft.restaurantmenumanager.utils.PaginationUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -68,20 +69,8 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Override
     public PaginatedResponse<RestaurantResponseDto> getAllRestaurants(PaginationParams paginationParams, RestaurantFilter filter) {
         Specification<Restaurant> specification = RestaurantSpecification.withFilters(filter);
-        Sort sort = paginationParams.getSortDir().equalsIgnoreCase(Sort.Direction.ASC.name())
-                ? Sort.by(paginationParams.getSortBy()).ascending()
-                : Sort.by(paginationParams.getSortBy()).descending();
-        Pageable pageable = PageRequest.of(paginationParams.getPage(), paginationParams.getSize(), sort);
-        Page<Restaurant> restaurantPage = restaurantRepository.findAll(specification, pageable);
-        List<RestaurantResponseDto> restaurants = restaurantPage.map(this::mapToDto).stream().toList();
-        return PaginatedResponse.<RestaurantResponseDto>builder()
-                .results(restaurants.size())
-                .perPage(paginationParams.getSize())
-                .totalResults(restaurantPage.getTotalElements())
-                .totalPages(restaurantPage.getTotalPages())
-                .page(paginationParams.getPage() + 1)
-                .data(restaurants)
-                .build();
+        Page<Restaurant> restaurantPage = restaurantRepository.findAll(specification, PaginationUtils.of(paginationParams));
+        return PaginationUtils.response(restaurantPage, restaurantPage.map(this::mapToDto).stream().toList());
     }
 
     @Override

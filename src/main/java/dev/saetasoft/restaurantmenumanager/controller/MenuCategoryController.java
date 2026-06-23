@@ -3,8 +3,8 @@ package dev.saetasoft.restaurantmenumanager.controller;
 import dev.saetasoft.restaurantmenumanager.model.dto.request.MenuCategoryRequestDto;
 import dev.saetasoft.restaurantmenumanager.model.dto.response.MenuCategoryResponseDto;
 import dev.saetasoft.restaurantmenumanager.model.dto.response.PaginatedResponse;
-import dev.saetasoft.restaurantmenumanager.model.dto.PaginationParams;
 import dev.saetasoft.restaurantmenumanager.service.MenuCategoryService;
+import dev.saetasoft.restaurantmenumanager.utils.PaginationUtils;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -28,12 +28,7 @@ public class MenuCategoryController {
             @RequestParam(name = "sortDir", defaultValue = "asc") String sortDir
     ) {
         return ResponseEntity.ok(menuCategoryService.getAllCategories(
-                PaginationParams.builder()
-                        .page(Integer.max(0, page - 1))
-                        .size(Integer.max(1, perPage))
-                        .sortBy(sortBy)
-                        .sortDir(sortDir)
-                        .build()
+                PaginationUtils.params(page, perPage, sortBy, sortDir)
         ));
     }
 

@@ -7,14 +7,10 @@ import dev.saetasoft.restaurantmenumanager.model.dto.PaginationParams;
 import dev.saetasoft.restaurantmenumanager.model.entity.Cuisine;
 import dev.saetasoft.restaurantmenumanager.repository.CuisineRepository;
 import dev.saetasoft.restaurantmenumanager.service.CuisineService;
+import dev.saetasoft.restaurantmenumanager.utils.PaginationUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -32,20 +28,8 @@ public class CuisineServiceImpl implements CuisineService {
 
     @Override
     public PaginatedResponse<CuisineResponseDto> getAllCuisines(PaginationParams paginationParams) {
-        Sort sort = paginationParams.getSortDir().equalsIgnoreCase(Sort.Direction.ASC.name())
-                ? Sort.by(paginationParams.getSortBy()).ascending()
-                : Sort.by(paginationParams.getSortBy()).descending();
-        Pageable pageable = PageRequest.of(paginationParams.getPage(), paginationParams.getSize(), sort);
-        Page<Cuisine> cuisinePage = cuisineRepository.findAll(pageable);
-        List<CuisineResponseDto> cuisines = cuisinePage.map(this::mapToDto).stream().toList();
-        return PaginatedResponse.<CuisineResponseDto>builder()
-                .perPage(paginationParams.getSize())
-                .results(cuisines.size())
-                .totalResults(cuisinePage.getTotalElements())
-                .page(paginationParams.getPage() + 1)
-                .totalPages(cuisinePage.getTotalPages())
-                .data(cuisines)
-                .build();
+        Page<Cuisine> cuisinePage = cuisineRepository.findAll(PaginationUtils.of(paginationParams));
+        return PaginationUtils.response(cuisinePage, cuisinePage.map(this::mapToDto).stream().toList());
     }
 
     @Override

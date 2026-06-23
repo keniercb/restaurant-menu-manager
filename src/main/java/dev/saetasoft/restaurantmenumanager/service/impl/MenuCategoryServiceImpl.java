@@ -7,14 +7,11 @@ import dev.saetasoft.restaurantmenumanager.model.dto.PaginationParams;
 import dev.saetasoft.restaurantmenumanager.model.entity.MenuCategory;
 import dev.saetasoft.restaurantmenumanager.repository.MenuCategoryRepository;
 import dev.saetasoft.restaurantmenumanager.service.MenuCategoryService;
+import dev.saetasoft.restaurantmenumanager.utils.PaginationUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -25,20 +22,8 @@ public class MenuCategoryServiceImpl implements MenuCategoryService {
 
     @Override
     public PaginatedResponse<MenuCategoryResponseDto> getAllCategories(PaginationParams paginationParams) {
-        Pageable pageable = PageRequest.of(paginationParams.getPage(), paginationParams.getSize(),
-                paginationParams.getSortDir().equalsIgnoreCase(Sort.Direction.ASC.name())
-                        ? Sort.by(paginationParams.getSortBy()).ascending()
-                        : Sort.by(paginationParams.getSortBy()).descending());
-        Page<MenuCategory> categories = menuCategoryRepository.findAll(pageable);
-        List<MenuCategoryResponseDto> responseDtoList = categories.map(this::mapToDto).stream().toList();
-        return PaginatedResponse.<MenuCategoryResponseDto>builder()
-                .perPage(paginationParams.getSize())
-                .page(paginationParams.getPage() + 1)
-                .results(responseDtoList.size())
-                .data(responseDtoList)
-                .totalResults(categories.getTotalElements())
-                .totalPages(categories.getTotalPages())
-                .build();
+        Page<MenuCategory> categories = menuCategoryRepository.findAll(PaginationUtils.of(paginationParams));
+        return PaginationUtils.response(categories, categories.map(this::mapToDto).stream().toList());
     }
 
     @Override

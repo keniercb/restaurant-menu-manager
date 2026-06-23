@@ -7,14 +7,10 @@ import dev.saetasoft.restaurantmenumanager.model.dto.response.UserResponseDto;
 import dev.saetasoft.restaurantmenumanager.model.entity.User;
 import dev.saetasoft.restaurantmenumanager.repository.UserRepository;
 import dev.saetasoft.restaurantmenumanager.service.UserService;
+import dev.saetasoft.restaurantmenumanager.utils.PaginationUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -31,21 +27,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public PaginatedResponse<UserResponseDto> getUsers(PaginationParams paginationParams) {
-        Sort sort = paginationParams.getSortDir().equalsIgnoreCase(Sort.Direction.ASC.name())
-                ? Sort.by(paginationParams.getSortBy()).ascending()
-                : Sort.by(paginationParams.getSortBy()).descending();
-
-        Pageable pageable = PageRequest.of(paginationParams.getPage(), paginationParams.getSize(), sort);
-        Page<User> userPage = userRepository.findAll(pageable);
-        List<UserResponseDto> userList = userPage.map(this::mapToDto).toList();
-        return PaginatedResponse.<UserResponseDto>builder()
-                .perPage(paginationParams.getSize())
-                .page(paginationParams.getPage() + 1)
-                .data(userList)
-                .results(userPage.getNumberOfElements())
-                .totalResults(userPage.getTotalElements())
-                .totalPages(userPage.getTotalPages())
-                .build();
+        Page<User> userPage = userRepository.findAll(PaginationUtils.of(paginationParams));
+        return PaginationUtils.response(userPage, userPage.map(this::mapToDto).toList());
     }
 
     @Override

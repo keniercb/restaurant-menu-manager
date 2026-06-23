@@ -1,11 +1,11 @@
 package dev.saetasoft.restaurantmenumanager.controller;
 
 import dev.saetasoft.restaurantmenumanager.model.dto.response.PaginatedResponse;
-import dev.saetasoft.restaurantmenumanager.model.dto.PaginationParams;
 import dev.saetasoft.restaurantmenumanager.model.dto.request.RestaurantRequestDto;
 import dev.saetasoft.restaurantmenumanager.model.dto.response.RestaurantResponseDto;
 import dev.saetasoft.restaurantmenumanager.model.filter.RestaurantFilter;
 import dev.saetasoft.restaurantmenumanager.service.RestaurantService;
+import dev.saetasoft.restaurantmenumanager.utils.PaginationUtils;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -36,14 +36,8 @@ public class RestaurantController {
             @RequestParam(defaultValue = "asc") String sortDir,
             RestaurantFilter filter
     ) {
-        PaginationParams paginationParams = PaginationParams.builder()
-                .sortBy(sortBy)
-                .sortDir(sortDir)
-                .page(Integer.max(0, page - 1))
-                .size(Integer.max(1, perPage))
-                .build();
         return ResponseEntity.ok(
-                restaurantService.getAllRestaurants(paginationParams, filter)
-        );
+                restaurantService.getAllRestaurants(
+                        PaginationUtils.params(page, perPage, sortBy, sortDir), filter));
     }
 }
