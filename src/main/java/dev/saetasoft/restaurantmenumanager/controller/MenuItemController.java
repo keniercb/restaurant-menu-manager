@@ -5,6 +5,8 @@ import dev.saetasoft.restaurantmenumanager.model.dto.request.MenuItemRequestDto;
 import dev.saetasoft.restaurantmenumanager.model.dto.response.MenuItemResponseDto;
 import dev.saetasoft.restaurantmenumanager.model.dto.response.PaginatedResponse;
 import dev.saetasoft.restaurantmenumanager.service.MenuItemService;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.persistence.Table;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,7 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/menu-items")
+@RequestMapping("/api/v1/menu-item")
+@Tag(name = "Menu Item")
 public class MenuItemController {
     private final MenuItemService menuItemService;
 
@@ -39,5 +42,11 @@ public class MenuItemController {
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 menuItemService.createMenuItem(menuItemRequest)
         );
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteMenuItem(@PathVariable Long id) {
+        menuItemService.deleteMenuItem(id);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -18,4 +18,6 @@ public interface RestaurantService {
     PaginatedResponse<RestaurantResponseDto> getAllRestaurants(PaginationParams paginationParams, RestaurantFilter filter);
 
     Restaurant getRestaurantById(Long restaurantId);
+
+    RestaurantResponseDto mapToDto(Restaurant restaurant);
 }

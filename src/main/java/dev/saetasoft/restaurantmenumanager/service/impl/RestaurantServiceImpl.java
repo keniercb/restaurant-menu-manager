@@ -98,7 +98,7 @@ public class RestaurantServiceImpl implements RestaurantService {
                 .build();
     }
 
-    private RestaurantResponseDto mapToDto(Restaurant restaurant) {
+    public RestaurantResponseDto mapToDto(Restaurant restaurant) {
         return RestaurantResponseDto.builder()
                 .id(restaurant.getId())
                 .name(restaurant.getName())

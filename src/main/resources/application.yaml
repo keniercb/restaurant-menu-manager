@@ -4,7 +4,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/restaurant_dev
     username: root
-    password:
+    password: ""
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
@@ -27,7 +27,7 @@ springdoc:
       description: Restaurant Management API Documentation
       version: 1.0.0
       contact:
-        name: Tu Nombre o Equipo
-        email: dev@tuempresa.com
+        name: Zaeta Soft
+        email: dev@zaetasoft.com
 server:
   port: 8080

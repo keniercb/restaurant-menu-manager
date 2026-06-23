@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -36,6 +38,9 @@ public class Restaurant {
     private LocalDateTime createdAt;
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "restaurant")
+    List<MenuItem> menuItemList = new ArrayList<>();
 
     @PrePersist
     private void onCreate() {

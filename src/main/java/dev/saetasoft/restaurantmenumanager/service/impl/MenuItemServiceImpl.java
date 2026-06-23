@@ -27,14 +27,15 @@ public class MenuItemServiceImpl implements MenuItemService {
 
     @Override
     public MenuItemResponseDto createMenuItem(MenuItemRequestDto menuItemRequestDto) {
-        if (!menuItemRepository.findMenuItemByNameAndRestaurantIs(menuItemRequestDto.getName(), null).isEmpty()) {
+        if (!menuItemRepository.findMenuItemByNameAndRestaurantIs(menuItemRequestDto.getName(),
+                restaurantService.getRestaurantById(menuItemRequestDto.getRestaurantId())).isEmpty()) {
             throw new RuntimeException("A menu item with the provided name already exists");
         }
         MenuItem created = mapFromDto(menuItemRequestDto);
         created.setRestaurant(restaurantService.getRestaurantById(menuItemRequestDto.getRestaurantId()));
         created.setMenuCategory(menuCategoryService.getMenuCategoryById(menuItemRequestDto.getCategoryId()));
         menuItemRepository.save(created);
-        return null;
+        return mapToDto(created);
     }
 
     private MenuItem mapFromDto(MenuItemRequestDto menuItemRequestDto) {
@@ -51,10 +52,10 @@ public class MenuItemServiceImpl implements MenuItemService {
     public MenuItemResponseDto updateMenuItem(Long id, MenuItemRequestDto menuItemRequestDto) {
         MenuItem menuItem = getMenuItemById(id);
         menuItem.setPrice(menuItemRequestDto.getPrice());
-        menuItem.setName(menuItem.getName());
+        menuItem.setName(menuItemRequestDto.getName());
         menuItem.setIsAvailable(menuItemRequestDto.getIsAvailable());
         menuItemRepository.save(menuItem);
-        return null;
+        return mapToDto(menuItem);
     }
 
     @Override
@@ -81,6 +82,7 @@ public class MenuItemServiceImpl implements MenuItemService {
                 .name(menuItem.getName())
                 .description(menuItem.getDescription())
                 .price(menuItem.getPrice())
+                .restaurant(restaurantService.mapToDto(menuItem.getRestaurant()))
                 .created(menuItem.getCreatedAt())
                 .updated(menuItem.getUpdatedAt())
                 .build();
