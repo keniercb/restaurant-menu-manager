@@ -17,6 +17,9 @@ spring:
 jwt:
   secret: ${JWT_SECRET:zaetaSoftRestaurantMenuManagerSecretKey2026VeryLongAndSecure}
   expiration: ${JWT_EXPIRATION:86400000}
+logging:
+  level:
+    org.springframework.security: DEBUG
 springdoc:
   api-docs:
     path: /v1/api-docs
