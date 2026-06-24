@@ -5,6 +5,8 @@ import dev.saetasoft.restaurantmenumanager.model.dto.request.MenuItemRequestDto;
 import dev.saetasoft.restaurantmenumanager.model.dto.response.MenuItemResponseDto;
 import dev.saetasoft.restaurantmenumanager.model.dto.response.PaginatedResponse;
 import dev.saetasoft.restaurantmenumanager.model.entity.MenuItem;
+import dev.saetasoft.restaurantmenumanager.model.filter.MenuItemFilter;
+import dev.saetasoft.restaurantmenumanager.model.specification.MenuItemSpecification;
 import dev.saetasoft.restaurantmenumanager.repository.MenuItemRepository;
 import dev.saetasoft.restaurantmenumanager.service.MenuCategoryService;
 import dev.saetasoft.restaurantmenumanager.service.MenuItemService;
@@ -55,8 +57,8 @@ public class MenuItemServiceImpl implements MenuItemService {
     }
 
     @Override
-    public PaginatedResponse<MenuItemResponseDto> getAllMenuItems(PaginationParams paginationParams) {
-        Page<MenuItem> menuItemPage = menuItemRepository.findAll(PaginationUtils.of(paginationParams));
+    public PaginatedResponse<MenuItemResponseDto> getAllMenuItems(PaginationParams paginationParams, MenuItemFilter menuItemFilter) {
+        Page<MenuItem> menuItemPage = menuItemRepository.findAll(MenuItemSpecification.withFilters(menuItemFilter), PaginationUtils.of(paginationParams));
         return PaginationUtils.response(menuItemPage.map(this::mapToDto));
     }
 

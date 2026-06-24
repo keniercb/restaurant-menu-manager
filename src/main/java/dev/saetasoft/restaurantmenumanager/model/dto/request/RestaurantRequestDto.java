@@ -20,4 +20,6 @@ public class RestaurantRequestDto {
     private String email;
     @NonNull
     private Long cuisineId;
+    @NonNull
+    private Long currencyId;
 }

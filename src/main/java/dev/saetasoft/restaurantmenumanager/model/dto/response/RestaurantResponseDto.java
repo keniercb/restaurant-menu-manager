@@ -21,5 +21,6 @@ public class RestaurantResponseDto {
     private CuisineResponseDto cuisine;
     private UserResponseDto owner;
     private LocalDateTime created;
-    private  LocalDateTime updated;
+    private LocalDateTime updated;
+    private String currency;
 }

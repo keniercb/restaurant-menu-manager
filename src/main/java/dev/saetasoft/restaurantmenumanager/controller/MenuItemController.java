@@ -3,6 +3,7 @@ package dev.saetasoft.restaurantmenumanager.controller;
 import dev.saetasoft.restaurantmenumanager.model.dto.request.MenuItemRequestDto;
 import dev.saetasoft.restaurantmenumanager.model.dto.response.MenuItemResponseDto;
 import dev.saetasoft.restaurantmenumanager.model.dto.response.PaginatedResponse;
+import dev.saetasoft.restaurantmenumanager.model.filter.MenuItemFilter;
 import dev.saetasoft.restaurantmenumanager.service.MenuItemService;
 import dev.saetasoft.restaurantmenumanager.utils.PaginationUtils;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -24,10 +25,11 @@ public class MenuItemController {
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "10") Integer perPage,
             @RequestParam(defaultValue = "name") String orderBy,
-            @RequestParam(defaultValue = "asc") String orderDir
+            @RequestParam(defaultValue = "asc") String orderDir,
+            MenuItemFilter itemFilter
     ) {
         return ResponseEntity.ok(menuItemService.getAllMenuItems(
-                PaginationUtils.params(page, perPage, orderBy, orderDir)
+                PaginationUtils.params(page, perPage, orderBy, orderDir), itemFilter
         ));
     }
 

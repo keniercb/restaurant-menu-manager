@@ -16,13 +16,7 @@ import dev.saetasoft.restaurantmenumanager.service.UserService;
 import dev.saetasoft.restaurantmenumanager.utils.PaginationUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -56,8 +50,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     public PaginatedResponse<RestaurantResponseDto> getAllRestaurants(PaginationParams paginationParams, RestaurantFilter filter) {
-        Specification<Restaurant> specification = RestaurantSpecification.withFilters(filter);
-        Page<Restaurant> restaurantPage = restaurantRepository.findAll(specification, PaginationUtils.of(paginationParams));
+        Page<Restaurant> restaurantPage = restaurantRepository.findAll(RestaurantSpecification.withFilters(filter), PaginationUtils.of(paginationParams));
         return PaginationUtils.response(restaurantPage.map(this::mapToDto));
     }
 
@@ -84,6 +77,7 @@ public class RestaurantServiceImpl implements RestaurantService {
                 .address(restaurant.getAddress())
                 .created(restaurant.getCreatedAt())
                 .updated(restaurant.getUpdatedAt())
+                .currency(restaurant.getCurrency().getIsoCode())
                 .build();
     }
 }

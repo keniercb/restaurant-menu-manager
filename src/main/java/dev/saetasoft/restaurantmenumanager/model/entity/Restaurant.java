@@ -27,6 +27,10 @@ public class Restaurant {
     private String email;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "currency_id", nullable = false)
+    private Currency currency;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cuisine_type_id")
     private Cuisine cuisineType;
 
