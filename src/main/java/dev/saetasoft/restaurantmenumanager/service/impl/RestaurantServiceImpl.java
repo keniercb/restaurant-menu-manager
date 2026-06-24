@@ -10,9 +10,7 @@ import dev.saetasoft.restaurantmenumanager.model.entity.User;
 import dev.saetasoft.restaurantmenumanager.model.filter.RestaurantFilter;
 import dev.saetasoft.restaurantmenumanager.model.specification.RestaurantSpecification;
 import dev.saetasoft.restaurantmenumanager.repository.RestaurantRepository;
-import dev.saetasoft.restaurantmenumanager.service.CuisineService;
-import dev.saetasoft.restaurantmenumanager.service.RestaurantService;
-import dev.saetasoft.restaurantmenumanager.service.UserService;
+import dev.saetasoft.restaurantmenumanager.service.*;
 import dev.saetasoft.restaurantmenumanager.utils.PaginationUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -25,15 +23,18 @@ public class RestaurantServiceImpl implements RestaurantService {
     protected final RestaurantRepository restaurantRepository;
     private final CuisineService cuisineService;
     private final UserService userService;
+    private final AuthService authService;
+    private final CurrencyService currencyService;
 
     @Override
     @Transactional
-    public RestaurantResponseDto createRestaurant(RestaurantRequestDto restaurantRequestDto, Long ownerId) {
-        User owner = userService.getUserById(ownerId);
+    public RestaurantResponseDto createRestaurant(RestaurantRequestDto restaurantRequestDto) {
+        User owner = userService.getUserById(authService.getCurrentUser().getId());
         Cuisine cuisine = cuisineService.getCuisineById(restaurantRequestDto.getCuisineId());
         Restaurant restaurant = mapFromDto(restaurantRequestDto);
         restaurant.setOwner(owner);
         restaurant.setCuisineType(cuisine);
+        restaurant.setCurrency(currencyService.gerCurrencyById(restaurantRequestDto.getCurrencyId()));
         restaurantRepository.save(restaurant);
         return mapToDto(restaurant);
     }

@@ -6,10 +6,9 @@ import dev.saetasoft.restaurantmenumanager.model.dto.request.RestaurantRequestDt
 import dev.saetasoft.restaurantmenumanager.model.dto.response.RestaurantResponseDto;
 import dev.saetasoft.restaurantmenumanager.model.entity.Restaurant;
 import dev.saetasoft.restaurantmenumanager.model.filter.RestaurantFilter;
-import jakarta.validation.constraints.NotNull;
 
 public interface RestaurantService {
-    RestaurantResponseDto createRestaurant(RestaurantRequestDto restaurantRequestDto, Long ownerId);
+    RestaurantResponseDto createRestaurant(RestaurantRequestDto restaurantRequestDto);
 
     PaginatedResponse<RestaurantResponseDto> getRestaurantsByOwner(PaginationParams paginationParams, Long ownerId);
 
