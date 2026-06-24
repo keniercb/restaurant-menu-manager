@@ -11,6 +11,7 @@ import dev.saetasoft.restaurantmenumanager.utils.PaginationUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,6 +19,7 @@ public class CuisineServiceImpl implements CuisineService {
     private final CuisineRepository cuisineRepository;
 
     @Override
+    @Transactional
     public CuisineResponseDto createCuisine(CuisineRequestDto cuisineRequestDto) {
         if (cuisineRepository.findCuisineByName(cuisineRequestDto.getName()).isPresent()) {
             throw new RuntimeException("Cuisine already exists");
@@ -33,6 +35,7 @@ public class CuisineServiceImpl implements CuisineService {
     }
 
     @Override
+    @Transactional
     public CuisineResponseDto updateCuisine(CuisineRequestDto cuisineRequestDto, Long id) {
         Cuisine cuisine = cuisineRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Cuisine not found"));
@@ -45,6 +48,7 @@ public class CuisineServiceImpl implements CuisineService {
     }
 
     @Override
+    @Transactional
     public void deleteCuisines(Long id) {
         cuisineRepository.delete(getCuisineById(id));
     }

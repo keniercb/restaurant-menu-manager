@@ -11,6 +11,7 @@ import dev.saetasoft.restaurantmenumanager.utils.PaginationUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -27,6 +28,7 @@ public class MenuCategoryServiceImpl implements MenuCategoryService {
     }
 
     @Override
+    @Transactional
     public MenuCategoryResponseDto createCategory(MenuCategoryRequestDto menuCategoryRequest) {
         if (menuCategoryRepository.findByName(menuCategoryRequest.getName()).isPresent()) {
             throw new RuntimeException("Menu category name already exists.");
@@ -56,6 +58,7 @@ public class MenuCategoryServiceImpl implements MenuCategoryService {
     }
 
     @Override
+    @Transactional
     public void deleteCategory(Long id) {
         menuCategoryRepository.delete(getMenuCategoryById(id));
     }
@@ -65,6 +68,7 @@ public class MenuCategoryServiceImpl implements MenuCategoryService {
     }
 
     @Override
+    @Transactional
     public MenuCategoryResponseDto updateCategory(Long menuCategoryId, MenuCategoryRequestDto menuCategoryRequest) {
         MenuCategory founded = getMenuCategoryById(menuCategoryId);
         Optional<MenuCategory> namedCategory = menuCategoryRepository.findByName(menuCategoryRequest.getName());

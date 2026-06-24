@@ -7,7 +7,7 @@ import dev.saetasoft.restaurantmenumanager.model.dto.response.UserResponseDto;
 import dev.saetasoft.restaurantmenumanager.model.entity.User;
 
 public interface UserService {
-    UserResponseDto register(UserRegistrationDto userRegistrationDto);
+    UserResponseDto createUser(UserRegistrationDto userRegistrationDto);
 
     PaginatedResponse<UserResponseDto> getUsers(PaginationParams paginationParams);
 

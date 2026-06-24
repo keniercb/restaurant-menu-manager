@@ -15,6 +15,7 @@ import dev.saetasoft.restaurantmenumanager.utils.PaginationUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +25,7 @@ public class MenuItemServiceImpl implements MenuItemService {
     private final MenuCategoryService menuCategoryService;
 
     @Override
+    @Transactional
     public MenuItemResponseDto createMenuItem(MenuItemRequestDto menuItemRequestDto) {
         if (!menuItemRepository.findMenuItemByNameAndRestaurantIs(menuItemRequestDto.getName(),
                 restaurantService.getRestaurantById(menuItemRequestDto.getRestaurantId())).isEmpty()) {
@@ -47,6 +49,7 @@ public class MenuItemServiceImpl implements MenuItemService {
     }
 
     @Override
+    @Transactional
     public MenuItemResponseDto updateMenuItem(Long id, MenuItemRequestDto menuItemRequestDto) {
         MenuItem menuItem = getMenuItemById(id);
         menuItem.setPrice(menuItemRequestDto.getPrice());
@@ -76,6 +79,7 @@ public class MenuItemServiceImpl implements MenuItemService {
     }
 
     @Override
+    @Transactional
     public void deleteMenuItem(Long id) {
         menuItemRepository.delete(getMenuItemById(id));
     }

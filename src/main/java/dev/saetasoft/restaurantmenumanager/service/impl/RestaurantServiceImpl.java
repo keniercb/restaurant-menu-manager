@@ -17,6 +17,7 @@ import dev.saetasoft.restaurantmenumanager.utils.PaginationUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +27,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     private final UserService userService;
 
     @Override
+    @Transactional
     public RestaurantResponseDto createRestaurant(RestaurantRequestDto restaurantRequestDto, Long ownerId) {
         User owner = userService.getUserById(ownerId);
         Cuisine cuisine = cuisineService.getCuisineById(restaurantRequestDto.getCuisineId());

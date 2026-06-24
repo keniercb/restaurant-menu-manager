@@ -10,15 +10,19 @@ import dev.saetasoft.restaurantmenumanager.service.UserService;
 import dev.saetasoft.restaurantmenumanager.utils.PaginationUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
-    public UserResponseDto register(UserRegistrationDto userRegistrationDto) {
+    @Transactional
+    public UserResponseDto createUser(UserRegistrationDto userRegistrationDto) {
         if (userRepository.findUserByEmail(userRegistrationDto.getEmail()).isPresent()) {
             throw new RuntimeException("Email is already taken");
         }
@@ -32,6 +36,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void deleteUser(Long id) {
         userRepository.delete(getUserById(id));
     }
@@ -44,8 +49,8 @@ public class UserServiceImpl implements UserService {
     private User mapFromDto(UserRegistrationDto userRegistrationDto) {
         return User.builder()
                 .fullName(userRegistrationDto.getFullName())
+                .password(passwordEncoder.encode(userRegistrationDto.getPassword()))
                 .email(userRegistrationDto.getEmail())
-                .password(userRegistrationDto.getPassword())
                 .build();
     }
 
