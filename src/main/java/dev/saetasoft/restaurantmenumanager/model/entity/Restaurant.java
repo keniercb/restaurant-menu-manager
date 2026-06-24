@@ -44,7 +44,7 @@ public class Restaurant {
     private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "restaurant")
-    List<MenuItem> menuItemList = new ArrayList<>();
+    List<MenuItem> menuItemList;
 
     @PrePersist
     private void onCreate() {
