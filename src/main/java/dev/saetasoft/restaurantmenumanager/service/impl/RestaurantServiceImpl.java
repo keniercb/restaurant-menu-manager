@@ -80,6 +80,8 @@ public class RestaurantServiceImpl implements RestaurantService {
                 .address(restaurant.getAddress())
                 .created(restaurant.getCreatedAt())
                 .updated(restaurant.getUpdatedAt())
+                .phone(restaurant.getPhone())
+                .email(restaurant.getEmail())
                 .currency(restaurant.getCurrency().getIsoCode())
                 .build();
     }

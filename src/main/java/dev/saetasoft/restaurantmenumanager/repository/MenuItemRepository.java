@@ -5,6 +5,7 @@ import dev.saetasoft.restaurantmenumanager.model.entity.Restaurant;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface MenuItemRepository extends JpaRepository<MenuItem, Long>, JpaSpecificationExecutor<MenuItem> {

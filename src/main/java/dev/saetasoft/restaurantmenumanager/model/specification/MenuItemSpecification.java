@@ -22,7 +22,7 @@ public class MenuItemSpecification {
                 predicates.add(criteriaBuilder.equal(root.get("restaurant").get("id"), itemFilter.getRestaurantId()));
             }
             if (itemFilter.getCategoryId() != null) {
-                predicates.add(criteriaBuilder.equal(root.get("category").get("id"), itemFilter.getCategoryId()));
+                predicates.add(criteriaBuilder.equal(root.get("menuCategory").get("id"), itemFilter.getCategoryId()));
             }
             if (itemFilter.getMinPrice() != null) {
                 predicates.add(criteriaBuilder.ge(root.get("price"), itemFilter.getMinPrice()));
